@@ -1,32 +1,31 @@
 
+const TelegramBot = require('node-telegram-bot-api');
 
-
-import TelegramBot = require('node-telegram-bot-api');
-
-// replace the value below with the Telegram token you receive from @BotFather
+// Replace the value below with the Telegram token you received from BotFather
 const token = '7214251084:AAHt8Z-q2XVOWWu1pA1n4SQY8UfyYM4jIbg';
 
-// Create a bot that uses 'polling' to fetch new updates
+// Create a bot that uses polling to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
-// Matches "/echo [whatever]"
-bot.onText(/\/echo (.+)/, (msg, match) => {
-    // 'msg' is the received Message from Telegram
-    // 'match' is the result of executing the regexp above on the text content
-    // of the message
-
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
-
-    // send back the matched "whatever" to the chat
-    bot.sendMessage(chatId, resp);
-});
-
-// Listen for any kind of message. There are different kinds of
-// messages.
+// Listen for any kind of message
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
 
-    // send a message to the chat acknowledging receipt of their message
-    bot.sendMessage(chatId, 'Received your message');
+    // If the user sends a location (latitude and longitude), respond back
+    if (msg.location) {
+        console.log('Location received:', msg.location);
+        bot.sendMessage(chatId, `Location received: ${msg.location.latitude}, ${msg.location.longitude}`);
+    } else {
+        // Send a custom keyboard to request location sharing
+        const options = {
+            reply_markup: JSON.stringify({
+                keyboard: [
+                    [{text: "Share Location", request_location: true}],
+                ],
+                resize_keyboard: true,
+                one_time_keyboard: true,
+            }),
+        };
+        bot.sendMessage(chatId, 'Press the button to share your location.', options);
+    }
 });
