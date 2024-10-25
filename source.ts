@@ -1,8 +1,14 @@
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 const TelegramBot = require('node-telegram-bot-api');
 
 // Replace the value below with the Telegram token you received from BotFather
-const token = '7214251084:AAHt8Z-q2XVOWWu1pA1n4SQY8UfyYM4jIbg';
+
+const token: string = process.env.TELEGRAM_BOT_TOKEN || 'default_token';
+
+// const token = '7214251084:AAHt8Z-q2XVOWWu1pA1n4SQY8UfyYM4jIbg';
 
 // Create a bot that uses polling to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
@@ -29,3 +35,8 @@ bot.on('message', (msg) => {
         bot.sendMessage(chatId, 'Press the button to share your location.', options);
     }
 });
+
+
+
+
+

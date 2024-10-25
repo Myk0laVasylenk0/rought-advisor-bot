@@ -3,6 +3,7 @@
     "@types/node-telegram-bot-api": "^0.64.7"
   },
   "dependencies": {
-    "node-telegram-bot-api": "^0.63.0"
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0"
   }
 }
