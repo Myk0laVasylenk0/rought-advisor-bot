@@ -13,10 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Location {
-  id        String   @id
-  chatId    Int
-  latitude  Float
-  longitude Float
-  createdAt DateTime @default(now())
+// model Location {
+//   id        String   @id
+//   chatId    Int
+//   latitude  Float
+//   longitude Float
+//   createdAt DateTime @default(now())
+// }
+
+model Drivers {
+  driver_id    Int      @id @default(autoincrement())
+  name        String
+  surname     String
+  phone_number String   @unique
+  latitude    Float?
+  longitude   Float?
+  email       String?
+  created_at   DateTime @default(now())
 }
